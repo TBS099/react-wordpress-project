@@ -1,0 +1,13 @@
+.create-post-form {
+    max-width: 800px;
+}
+
+.form-title {
+    float:left;
+}
+
+.submit.form{
+    padding-top:10px;
+    padding-left:10px;
+    padding-right:10px;
+}

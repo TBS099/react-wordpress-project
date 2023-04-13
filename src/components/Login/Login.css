@@ -1,0 +1,42 @@
+.login{
+    width:390px !important;
+    text-align: center;
+    margin-left:0 !important;
+    margin-top:50px;
+}
+
+.body {
+    display:flex;
+    justify-content: center;
+}
+
+.submit {
+    padding:5px;
+    margin-top:10px;
+    border:none;
+    color: #fff !important;
+    background-color: rgb(61, 61, 223);
+    border-radius:5px;
+}
+
+.submit:hover {
+    background-color: blue;
+}
+
+.form-group {
+    text-align: none;
+}
+
+.form-group p {
+    margin-bottom:0 !important;
+    float: left;
+    margin-left:10px;
+}
+
+.form-group:first-of-type {
+    margin-bottom:5px;
+}
+
+.form-control {
+    width:100px;
+}

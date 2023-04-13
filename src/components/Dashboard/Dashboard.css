@@ -1,0 +1,19 @@
+.center-align {
+    text-align: center;
+}
+
+.box {
+    margin-left:350px;
+    width:850px !important;
+    margin-bottom:50px;
+    margin-top:10px;
+}
+
+.dashboard-title {
+    margin-top:20px;
+    margin-bottom:40px;
+}
+
+.userpost {
+    margin-left:17px;
+}

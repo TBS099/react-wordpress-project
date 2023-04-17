@@ -1,11 +1,12 @@
 import React from "react";
 import "./Home.css";
 import NavBar from "../NavBar/Navbar";
-import TimePassed from "../Time";
+import TimePassed from "../Time/Time";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
 import Loader from "/src/assets/loader.gif";
+import Pagination from "../Pagination/Pagination";
 
 class Home extends React.Component {
   constructor(props) {
@@ -15,15 +16,27 @@ class Home extends React.Component {
       loading: false,
       posts: [],
       error: "",
+      currentPage: 1,
+      postsPerPage: 5,
+      users:[]
     };
   }
 
   componentDidMount() {
     const wordPressSiteUrl = "http://react-wordpress.local/";
+
     this.setState({ loading: true }, () => {
-      axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/posts`).then(
+      axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/posts?per_page=100`).then(
         (res) => {
           this.setState({ loading: false, posts: res.data });
+        },
+        (error) =>
+          this.setState({ loading: false, error: error.response.data.message })
+      );
+
+      axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/users`).then(
+        (res) => {
+          this.setState({ loading: false, users: res.data });
         },
         (error) =>
           this.setState({ loading: false, error: error.response.data.message })
@@ -31,16 +44,28 @@ class Home extends React.Component {
     });
   }
 
+  paginate = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
   render() {
-    const { posts, loading, error } = this.state;
+    const { posts, loading, error, currentPage, postsPerPage, users } = this.state;
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    console.log(posts);
     return (
       <div>
         <NavBar />
-        <div className="title"><h1>Latest Posts</h1></div>
+        <div className="title">
+          <h1>Latest Posts</h1>
+        </div>
         {error && <div className="alert alert-danger">{error}</div>}
-        {posts.length ? (
+        {currentPosts.length ? (
           <div className="mt-5 post-container">
-            {posts.map((post) => (
+            {currentPosts.map((post) => (
               <div key={post.id} className="card border-dark mb-3">
                 <div className="card-header">
                   <h3 className="header-text">{post.title.rendered}</h3>
@@ -51,12 +76,25 @@ class Home extends React.Component {
                   </div>
                 </div>
                 <div className="card-footer">
+                  <div className="row col-12">
+                    <div className="row col-6">
+                    {users.map((user) => {
+                    if (user.id === post.author) {
+                      return(
+                        <div className="col-7 author">{user.name}</div>
+                        );
+                    }
+                    return null;
+                  })}
                   <TimePassed TimePassed={post.date} />
-                  <div className="col-6">
+                  </div>
+                  <div className="col-6 padding">
                     <Link to={`/post/${post.id}`} className="button">
                       Read More...
                     </Link>
                   </div>
+                  </div>
+                  
                 </div>
               </div>
             ))}
@@ -64,9 +102,17 @@ class Home extends React.Component {
         ) : (
           ""
         )}
+
+        <Pagination
+          totalPosts={posts.length}
+          postsPerPage={postsPerPage}
+          paginate={this.paginate}
+        />
+
         {loading && <img className="loader" src={Loader} alt="loader" />}
       </div>
     );
   }
 }
+
 export default Home;

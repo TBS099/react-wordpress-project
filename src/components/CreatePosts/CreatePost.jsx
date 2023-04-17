@@ -1,7 +1,6 @@
 import React from "react";
 import "./CreatePost.css";
 import NavBar from "../NavBar/Navbar";
-import { Navigate } from "react-router-dom";
 import Loader from "/src/assets/loader.gif";
 import axios from "axios";
 

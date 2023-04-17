@@ -1,4 +1,5 @@
 import React from "react";
+import './Time.css';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 

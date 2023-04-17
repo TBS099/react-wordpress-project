@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Home from "./components/Home/Home";
-import SinglePost from "./components/SinglePost";
+import SinglePost from "./components/SinglePost/SinglePost";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import CreatePost from "./components/CreatePosts/CreatePost";

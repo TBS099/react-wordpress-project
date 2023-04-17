@@ -37,8 +37,8 @@ img {
   background-color: rgb(61, 61, 223);
 }
 
-.margin{
-  margin-left:5px;
+.padding {
+  padding-top:6px;
 }
 
 .button:hover {

@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Home from "./components/Home/Home";
 import SinglePost from "./components/SinglePost/SinglePost";
 import Login from "./components/Login/Login";

@@ -88,7 +88,7 @@ class CommentForm extends React.Component {
             />
           )}
           <div className="form-group">
-            <h1 className='card-form-title'>Write a Comment:</h1>
+            <h3 className='card-form-title'>Write a Comment:</h3>
             <label htmlFor="my-postcontent" className="form-title card-form-subtitle">
               Comment:
             </label>

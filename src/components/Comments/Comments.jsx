@@ -64,10 +64,9 @@ class Comments extends React.Component {
 
     //Display HTML
     return (
-      <div className="">
-        {error && <div className="alert alert-danger">{error}</div>}
-
         <div className="card border-dark mb-3 col-10 comment-card">
+          {error && <div className="alert alert-danger">{error}</div>}
+          <h3>Comments:</h3>
           {Comments.length
             ? Comments.map((comment) => {
                 return (
@@ -96,10 +95,8 @@ class Comments extends React.Component {
               })
             : ""}
           <CommentForm />
+          {loading && <img className="loader" src={Loader} alt="loader" />}
         </div>
-
-        {loading && <img className="loader" src={Loader} alt="loader" />}
-      </div>
     );
   }
 }

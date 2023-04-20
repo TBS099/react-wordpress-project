@@ -9,10 +9,12 @@ import { Navigate } from "react-router-dom";
 import Loader from "/src/assets/loader.gif";
 import Pagination from "../Pagination/Pagination";
 
+//Creates Dashboard Class Component
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
+    //Declaring states
     this.state = {
       loading: false,
       posts: [],
@@ -23,22 +25,20 @@ class Dashboard extends React.Component {
     };
   }
 
-  paginate = (pageNumber) => {
-    this.setState({ currentPage: pageNumber });
-  };
-
+  //Calls functions upon mounting of component
   componentDidMount() {
     const wordPressSiteUrl = "http://react-wordpress.local/";
 
-    axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/users`).then(
-      (res) => {
-        this.setState({ loading: false, users: res.data });
-      },
-      (error) =>
-        this.setState({ loading: false, error: error.response.data.message })
-    );
-
+    //Requesting data from wordpress site
     this.setState({ loading: true }, () => {
+      axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/users`).then(
+        (res) => {
+          this.setState({ loading: false, users: res.data });
+        },
+        (error) =>
+          this.setState({ loading: false, error: error.response.data.message })
+      );
+
       axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/posts?per_page=100`).then(
         (res) => {
           this.setState({ loading: false, posts: res.data });
@@ -49,6 +49,12 @@ class Dashboard extends React.Component {
     });
   }
 
+  //Takes prop from parent component and sets currentPage to the value passed down
+  paginate = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
+  //Log Out Function
   LogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
@@ -61,6 +67,7 @@ class Dashboard extends React.Component {
     const { posts, users, loading, error, currentPage, postsPerPage } =
       this.state;
 
+    //Singles out user that is logged in
     const UserID = users
       .map((user) => {
         if (user.name === localStorage.getItem("name")) {
@@ -71,11 +78,19 @@ class Dashboard extends React.Component {
       })
       .filter((value) => value !== "");
 
+    //Gathers posts of user that is logged in
     const Posts = posts.filter((value) => value.author === UserID[0]);
 
+    //Finds index of last post on page
     const indexOfLastPost = currentPage * postsPerPage;
+
+    //Finds index of first post on a page
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+    //Divides posts into pages on the basis of first and last post
     const currentPosts = Posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    //Display HTML
     return (
       <div>
         <NavBar />
@@ -113,6 +128,7 @@ class Dashboard extends React.Component {
                   </div>
                 ))
               : ""}
+
             <Pagination
               totalPosts={Posts.length}
               postsPerPage={postsPerPage}

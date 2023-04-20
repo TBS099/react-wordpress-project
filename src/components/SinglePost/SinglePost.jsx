@@ -5,31 +5,43 @@ import TimePassed from "../Time/Time";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
 import Loader from "/src/assets/loader.gif";
+import Comments from "../Comments/Comments";
 
+//Creates SinglePost Class Component
 class SinglePost extends React.Component {
   constructor(props) {
     super(props);
 
+    //Declares state
     this.state = {
       loading: false,
       post: {},
       error: "",
       users: [],
+      featuredMediaID: "",
+      featuredMediaURL: "",
     };
   }
 
+  //Pulls Single Post ID from the url
   CurrentUrl = window.location.href.split("/");
   CurrentUrl = this.CurrentUrl[this.CurrentUrl.length - 1];
 
+  //Calls functions upon mounting of component
   componentDidMount() {
     const wordPressSiteUrl = "http://react-wordpress.local/";
 
+    //Requesting data from wordpress site
     this.setState({ loading: true }, () => {
       axios
         .get(`${wordPressSiteUrl}/wp-json/wp/v2/posts/${this.CurrentUrl}`)
         .then(
           (res) => {
-            this.setState({ loading: false, post: res.data });
+            this.setState({
+              loading: false,
+              post: res.data,
+              featuredMediaID: res.data.featured_media,
+            });
           },
           (error) =>
             this.setState({ loading: false, error: error.response.data })
@@ -42,11 +54,43 @@ class SinglePost extends React.Component {
         (error) =>
           this.setState({ loading: false, error: error.response.data.message })
       );
+
+      setTimeout(() => {
+        if (this.state.featuredMediaID !== 0) {
+          setTimeout(() => {
+            axios
+              .get(
+                `${wordPressSiteUrl}/wp-json/wp/v2/media/${this.state.featuredMediaID}`
+              )
+              .then(
+                (res) => {
+                  console.log(res.data);
+                  this.setState({
+                    loading: false,
+                    featuredMediaURL: res.data.source_url,
+                  });
+                  console.log(this.state.featuredMediaURL);
+                },
+                (error) =>
+                  this.setState({
+                    loading: false,
+                    error: error.response.data.message,
+                  })
+              );
+          }, 1000);
+        }
+      }, 1000);
     });
   }
 
   render() {
-    const { post, loading, error, users } = this.state;
+    const {
+      post,
+      loading,
+      error,
+      users,
+      featuredMediaURL,
+    } = this.state;
 
     const username = users
       .map((user) => {
@@ -56,6 +100,7 @@ class SinglePost extends React.Component {
       })
       .filter((value) => value != undefined);
 
+    //Display HTML
     return (
       <main>
         <NavBar />
@@ -74,10 +119,22 @@ class SinglePost extends React.Component {
               </div>
               <div className="card-body">
                 <div className="card-text post-content">
+                  {featuredMediaURL === "" ? (
+                    ""
+                  ) : (
+                    <div className="image">
+                      <img
+                        alt="featured-image"
+                        className="sizing"
+                        src={featuredMediaURL}
+                      />
+                    </div>
+                  )}
                   {ReactHtmlParser(post.content.rendered)}
                 </div>
               </div>
             </div>
+            <Comments />
           </div>
         ) : (
           ""

@@ -4,10 +4,12 @@ import NavBar from "../NavBar/Navbar";
 import Loader from "/src/assets/loader.gif";
 import axios from "axios";
 
+//Creating CreatePost Class Component
 class CreatePost extends React.Component {
   constructor(props) {
     super(props);
 
+    //Declaring States
     this.state = {
       title: "",
       content: "",
@@ -18,45 +20,61 @@ class CreatePost extends React.Component {
     };
   }
 
+  //Takes Data and places it into __html
   createMarkup = (data) => ({
-    __html:data
-  })
+    __html: data,
+  });
 
+  //Action to be taken on form submit
   handleFormSubmit = (event) => {
     event.preventDefault();
 
-    this.setState({loading:true});
+    this.setState({ loading: true });
 
-    const formData = {
-      title: this.state.title,
-      content: this.state.content,
-      status: 'publish'
-    }
+    //Adding Data into formData
+    const formData = new FormData();
+    formData.append("title", this.state.title);
+    formData.append("content", this.state.content);
+    formData.append("status", "publish");
 
     const wordPressSiteUrl = "http://react-wordpress.local/";
-    const authToken = localStorage.getItem('token'); 
+    const authToken = localStorage.getItem("token");
 
     // Post Request
-    axios.post(`${wordPressSiteUrl}/wp-json/wp/v2/posts`, formData, {headers:{
-      'Content-type': 'application/json',
-      'Authorization': `Bearer ${authToken}`
-    }})
-    .then(
-      (res) => {console.warn('res',res);
-        this.setState({ loading: false, postCreated: !! res.data.id, message: res.data.id?'New Post Created':'' });
-      },
-      (error) =>
-        this.setState({ loading: false, message: error.response.data.message })
-    )
-  }
+    axios
+      .post(`${wordPressSiteUrl}/wp-json/wp/v2/posts`, formData, {
+        headers: {
+          "Content-type": "form/multipart",
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then(
+        (res) => {
+          console.warn("res", res);
+          this.setState({
+            loading: false,
+            postCreated: !!res.data.id,
+            message: res.data.id ? "New Post Created" : "",
+          });
+        },
+        (error) =>
+          this.setState({
+            loading: false,
+            message: error.response.data.message,
+          })
+      );
+  };
 
+  //Function that takes data apon entering and places it into states
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   render() {
-    const { loading, message, title, content, userID, postCreated } = this.state;
+    const { loading, message, title, content, userID, postCreated, img, featuredImage } =
+      this.state;
 
+    //Display HTML
     return (
       <main>
         <NavBar />

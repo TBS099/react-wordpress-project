@@ -8,10 +8,13 @@ import ReactHtmlParser from "html-react-parser";
 import Loader from "/src/assets/loader.gif";
 import Pagination from "../Pagination/Pagination";
 
+
+//Creates Home Class Component
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    //Declaring state
     this.state = {
       loading: false,
       posts: [],
@@ -22,9 +25,11 @@ class Home extends React.Component {
     };
   }
 
+  //Calls functions upon mounting of component
   componentDidMount() {
     const wordPressSiteUrl = "http://react-wordpress.local/";
 
+    //Requesting data from wordpress site
     this.setState({ loading: true }, () => {
       axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/posts?per_page=100`).then(
         (res) => {
@@ -44,6 +49,7 @@ class Home extends React.Component {
     });
   }
 
+  //Takes prop from parent component and sets currentPage to the value passed down
   paginate = (pageNumber) => {
     this.setState({ currentPage: pageNumber });
   };
@@ -51,11 +57,16 @@ class Home extends React.Component {
   render() {
     const { posts, loading, error, currentPage, postsPerPage, users } = this.state;
 
+    //Finds index of last post on page
     const indexOfLastPost = currentPage * postsPerPage;
+
+    //Finds index of first post on a page
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+    //Divides posts into pages on the basis of first and last post
     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-    console.log(posts);
+    //Display HTML
     return (
       <div>
         <NavBar />

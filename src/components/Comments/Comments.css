@@ -1,0 +1,50 @@
+.avatar-img {
+  width: 50px;
+  margin-top: 5px !important;
+  margin-left: 5px;
+}
+
+.comment-author {
+  margin-left: -10px;
+}
+
+.comment-body {
+  border-bottom: solid 1px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.comment {
+  margin-bottom: 5px;
+  width:90%;
+  margin-top:10px;
+}
+
+.card-form {
+  margin-left: 0;
+  width:90% !important
+}
+
+.comment-card {
+  display:flex;
+  align-items: center;
+  padding:5px;
+}
+
+.comment-text {
+  width:90% !important;
+  margin-left:40px;
+}
+
+.card-form-subtitle {
+  margin-left:40px;
+}
+
+.card-form-title {
+  text-align: center;
+}
+
+.submit-btn {
+  margin-left:300px;
+  margin-bottom:5px;
+}

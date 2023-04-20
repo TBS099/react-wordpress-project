@@ -6,11 +6,12 @@ import Loader from '/src/assets/loader.gif';
 import { Navigate } from "react-router-dom";
 
 
-
+//Creates Login Class Component
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
+    //Declaring state
     this.state = {
       username: "",
       password: "",
@@ -22,6 +23,7 @@ class Login extends React.Component {
     };
   }
 
+  //Function to be called when form is submitted
   onFormSubmit = (event) => {
     event.preventDefault();
 
@@ -33,9 +35,10 @@ class Login extends React.Component {
     };
 
     this.setState({ loading: true }, () => {
+
+      //Request Data
       axios.post(` ${SiteUrl}/wp-json/jwt-auth/v1/token`, loginData).then(
         (res) => {
-          console.log(res.data);
           if (undefined == res.data.token) {
             this.setState({ error: data.message, loading: false });
             return;
@@ -60,6 +63,7 @@ class Login extends React.Component {
     });
   };
 
+  //Changes value of respective states when input value is changed
   handleOnChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -67,6 +71,7 @@ class Login extends React.Component {
   render() {
     const { username, password, error, loading, loggedIn } = this.state;
 
+    //Checks if user is logged in and returns HTML accordingly
     if (loggedIn || localStorage.getItem('token')) {
       return <Navigate to={`/dashboard/${localStorage.getItem('userName')}`} noThrow/>
     }

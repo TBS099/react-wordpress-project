@@ -6,8 +6,10 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import CreatePost from "./components/CreatePosts/CreatePost";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+//Creates App Class Component
 class App extends React.Component {
   render() {
+    //Display HTML
     return (
       <main>
         <Router>

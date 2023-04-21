@@ -3,16 +3,17 @@ import axios from "axios";
 import Loader from "/src/assets/loader.gif";
 import "./Comments.css";
 
-//Creates CommentForm Class Component
-class CommentForm extends React.Component {
-  constructor() {
-    super();
+//Creates ReplyForm Class Component
+class ReplyForm extends React.Component {
+  constructor(props) {
+    super(props);
 
     //Declaring state
     this.state = {
       loading: false,
       message: "",
       newComment: "",
+      parentID: this.props.id,
       commentCreated: false,
     };
   }
@@ -42,6 +43,7 @@ class CommentForm extends React.Component {
     formData.append("content", this.state.newComment);
     formData.append("post", this.CurrentUrl);
     formData.append("status", "publish");
+    formData.append("parent", this.state.parentID);
 
     const wordPressSiteUrl = "http://react-wordpress.local/";
     const authToken = localStorage.getItem("token");
@@ -69,17 +71,17 @@ class CommentForm extends React.Component {
             message: error.response.data.message,
           })
       );
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
   };
 
   render() {
-    const { loading, message, commentCreated } = this.state;
+    const { loading, message, commentCreated, parentID } = this.state;
 
     //Display HTML
     return (
-      <div className="card card-form comment-form">
+      <div className="card-form reply-form" id={`number${parentID}`}>
         <form onSubmit={this.handleFormSubmit} className="create-post-form">
           {message && (
             <div
@@ -90,7 +92,7 @@ class CommentForm extends React.Component {
             />
           )}
           <div className="form-group">
-            <h3 className="card-form-title">Write a Comment:</h3>
+            <h3 className="card-form-title">Reply to a Comment:</h3>
             <label
               htmlFor="my-postcontent"
               className="form-title card-form-subtitle"
@@ -118,4 +120,4 @@ class CommentForm extends React.Component {
     );
   }
 }
-export default CommentForm;
+export default ReplyForm;

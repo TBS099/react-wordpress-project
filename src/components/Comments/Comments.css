@@ -48,3 +48,19 @@
   margin-left:300px;
   margin-bottom:5px;
 }
+
+.reply {
+  float:right;
+}
+
+.reply-form {
+  display:none;
+  border: solid 1px;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin-left:30px;
+}
+
+.reply-link {
+  cursor:pointer
+}

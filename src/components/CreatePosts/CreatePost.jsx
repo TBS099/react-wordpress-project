@@ -17,6 +17,7 @@ class CreatePost extends React.Component {
       message: "",
       postCreated: false,
       loading: false,
+      featuredImage: [],
     };
   }
 
@@ -31,7 +32,12 @@ class CreatePost extends React.Component {
 
     this.setState({ loading: true });
 
-    //Adding Data into formData
+    //Adding Image Data into ImgData
+    const ImgData = new FormData();
+    ImgData.append("file", this.state.featuredImage);
+    ImgData.append("caption", "Image Caption");
+
+    //Adding Post Data into formData
     const formData = new FormData();
     formData.append("title", this.state.title);
     formData.append("content", this.state.content);
@@ -40,29 +46,46 @@ class CreatePost extends React.Component {
     const wordPressSiteUrl = "http://react-wordpress.local/";
     const authToken = localStorage.getItem("token");
 
-    // Post Request
+    //Image Upload Request
     axios
-      .post(`${wordPressSiteUrl}/wp-json/wp/v2/posts`, formData, {
+      .post(`${wordPressSiteUrl}/wp-json/wp/v2/media`, ImgData, {
         headers: {
-          "Content-type": "form/multipart",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${authToken}`,
         },
       })
-      .then(
-        (res) => {
-          console.warn("res", res);
-          this.setState({
-            loading: false,
-            postCreated: !!res.data.id,
-            message: res.data.id ? "New Post Created" : "",
-          });
-        },
-        (error) =>
-          this.setState({
-            loading: false,
-            message: error.response.data.message,
-          })
-      );
+      .then((response) => {
+        const imageId = response.data.id;
+        formData.append("featured_media", imageId);
+      });
+
+    // Post Upload Request
+    setTimeout(() => {
+      axios
+        .post(`${wordPressSiteUrl}/wp-json/wp/v2/posts`, formData, {
+          headers: {
+            "Content-type": "form/multipart",
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then(
+          (res) => {
+            this.setState({
+              loading: false,
+              postCreated: !!res.data.id,
+              message: res.data.id ? "New Post Created" : "",
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          },
+          (error) =>
+            this.setState({
+              loading: false,
+              message: error.response.data.message,
+            })
+        );
+    }, 1500);
   };
 
   //Function that takes data apon entering and places it into states
@@ -70,9 +93,13 @@ class CreatePost extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  //Function that takes file data and inserts it into states
+  handleImageInput = (event) => {
+    this.setState({ featuredImage: event.target.files[0] });
+  };
+
   render() {
-    const { loading, message, title, content, userID, postCreated, img, featuredImage } =
-      this.state;
+    const { loading, message, postCreated } = this.state;
 
     //Display HTML
     return (
@@ -116,6 +143,18 @@ class CreatePost extends React.Component {
                     rows="10"
                     className="form-control"
                     onChange={this.handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-title" htmlFor="featuredImages">
+                    Featured Image:
+                  </label>
+                  <input
+                    type="file"
+                    name="featuredImage"
+                    id="featuredImage"
+                    className="form-control"
+                    onChange={this.handleImageInput}
                   />
                 </div>
                 <button type="submit" className="submit form" value="submit">

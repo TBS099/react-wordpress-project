@@ -69,7 +69,6 @@ class SinglePost extends React.Component {
                     loading: false,
                     featuredMediaURL: res.data.source_url,
                   });
-                  console.log(this.state.featuredMediaURL);
                 },
                 (error) =>
                   this.setState({

@@ -75,9 +75,9 @@ class CreatePost extends React.Component {
               postCreated: !!res.data.id,
               message: res.data.id ? "New Post Created" : "",
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
+            document.getElementById("title").value = "";
+            document.getElementById("my-postcontent").value = "";
+            document.getElementById("featuredImage").value = "";
           },
           (error) =>
             this.setState({
@@ -146,7 +146,7 @@ class CreatePost extends React.Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-title" htmlFor="featuredImages">
+                  <label className="form-title" htmlFor="featuredImage">
                     Featured Image:
                   </label>
                   <input

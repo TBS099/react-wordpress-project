@@ -74,7 +74,7 @@ class Comments extends React.Component {
   }
 
   render() {
-    const { comments, loading, error, users, commentReply } = this.state;
+    const { comments, loading, error, users } = this.state;
 
     //Filters out comment replies
     const Comments = comments.filter((comment) => comment.parent === 0);
@@ -98,6 +98,7 @@ class Comments extends React.Component {
                         return (
                           <div className="comment-author col-9">
                             {user.name}
+                            <TimePassed TimePassed={comment.date} />
                           </div>
                         );
                       }

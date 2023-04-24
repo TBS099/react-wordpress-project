@@ -51,7 +51,10 @@ class CommentReplies extends React.Component {
               {users.map((user) => {
                 if (user.id === reply.author) {
                   return (
-                    <div className="comment-author col-9">{user.name}</div>
+                    <div className="comment-author col-9">
+                      {user.name}
+                      <TimePassed TimePassed={reply.date} />
+                    </div>
                   );
                 }
               })}
@@ -83,6 +86,7 @@ class CommentReplies extends React.Component {
                           return (
                             <div className="comment-author col-9">
                               {user.name}
+                              <TimePassed TimePassed={replyReply.date} />
                             </div>
                           );
                         }

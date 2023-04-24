@@ -58,7 +58,6 @@ class ReplyForm extends React.Component {
       })
       .then(
         (res) => {
-          console.warn("res", res);
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,
@@ -71,9 +70,6 @@ class ReplyForm extends React.Component {
             message: error.response.data.message,
           })
       );
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
   };
 
   render() {

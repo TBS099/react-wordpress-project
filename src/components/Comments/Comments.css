@@ -62,5 +62,11 @@
 }
 
 .reply-link {
+  cursor:pointer;
+}
+
+.cancel-reply-link {
+  margin-right:35px;
+  float:right;
   cursor:pointer
 }

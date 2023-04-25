@@ -18,6 +18,15 @@ class ReplyForm extends React.Component {
     };
   }
 
+  ReverseFormChange() {
+    const replyForm = document.querySelectorAll(".reply-form");
+    replyForm.forEach((form) => {
+      form.style.display = "none";
+    });
+    const commentForm = document.querySelector(".comment-form");
+    commentForm.style.display = "flex";
+  }
+
   //Pulls Single Post ID from the url
   CurrentUrl = window.location.href.split("/");
   CurrentUrl = this.CurrentUrl[this.CurrentUrl.length - 1];
@@ -59,7 +68,7 @@ class ReplyForm extends React.Component {
       .then(
         (res) => {
           this.props.onCommentAddition(res.data);
-          
+
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,
@@ -92,6 +101,12 @@ class ReplyForm extends React.Component {
           )}
           <div className="form-group">
             <h3 className="card-form-title">Reply to a Comment:</h3>
+            <a
+              className="cancel-reply-link"
+              onClick={() => this.ReverseFormChange()}
+            >
+              Cancel Reply
+            </a>
             <label
               htmlFor="my-postcontent"
               className="form-title card-form-subtitle"

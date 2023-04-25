@@ -24,11 +24,12 @@ class Comments extends React.Component {
 
     // Bind the this context to the formChange function
     this.formChange = this.formChange.bind(this);
-    this.handleChildValueChange = this.handleChildValueChange.bind(this);
+    this.handleCommentAddition = this.handleCommentAddition.bind(this);
   }
 
-  handleChildValueChange(newValue) {
-    this.setState({ comments: [newValue,...this.state.comments] });
+  //Adds newly added comments added from react to display
+  handleCommentAddition(newComment) {
+    this.setState({ comments: [newComment,...this.state.comments] });
   }
 
   //Pulls Single Post ID from the url
@@ -121,18 +122,18 @@ class Comments extends React.Component {
                   <div className="comment-body body">
                     {ReactHtmlParser(comment.content.rendered)}
                   </div>
-                  <ReplyForm key={`reply-form-${comment.id}`} id={comment.id} onValueChange={this.handleChildValueChange} />
+                  <ReplyForm key={`reply-form-${comment.id}`} id={comment.id} onCommentAddition={this.handleCommentAddition} />
                   <CommentReplies
                     comments={comments}
                     commentID={comment.id}
                     users={users}
-                    onValueChange={this.handleChildValueChange}
+                    onCommentAddition={this.handleCommentAddition}
                   />
                 </div>
               );
             })
           : ""}
-        <CommentForm onValueChange={this.handleChildValueChange} />
+        <CommentForm onCommentAddition={this.handleCommentAddition} />
         {loading && <img className="loader" src={Loader} alt="loader" />}
         <script>
           {React.createElement("script", {

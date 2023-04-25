@@ -56,7 +56,7 @@ class CommentForm extends React.Component {
       })
       .then(
         (res) => {
-          this.props.onValueChange(res.data);
+          this.props.onCommentAddition(res.data);
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,

@@ -93,7 +93,7 @@ class Comments extends React.Component {
         {Comments.length
           ? Comments.map((comment) => {
               return (
-                <div className="comment" id={comment.id}>
+                <div className="comment" id={comment.id} key={`Parent-${comment.id}`}>
                   <div className="comment-header row">
                     <img
                       src={comment.author_avatar_urls[48]}

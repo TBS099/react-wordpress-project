@@ -42,7 +42,7 @@ class CommentReplies extends React.Component {
     return Replies.reverse().map((reply) => {
       if (reply.parent === commentID) {
         return (
-          <div className="comment reply">
+          <div className="comment reply" key={`Reply-${reply.id}`} id={reply.id}>
             <div className="comment-header row">
               <img
                 src={reply.author_avatar_urls[48]}
@@ -75,7 +75,7 @@ class CommentReplies extends React.Component {
             {ReplyReply.reverse().map((replyReply) => {
               if (replyReply.parent === reply.id) {
                 return (
-                  <div className="comment reply">
+                  <div className="comment reply" id={replyReply.id} key={`ReplyReply-${replyReply.id}`}>
                     <div className="comment-header row">
                       <img
                         src={replyReply.author_avatar_urls[48]}

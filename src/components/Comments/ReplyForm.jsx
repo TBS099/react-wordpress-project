@@ -68,13 +68,15 @@ class ReplyForm extends React.Component {
       .then(
         (res) => {
           this.props.onCommentAddition(res.data);
-
+          const ClearReplyForm = document.querySelectorAll("#my-replycomment");
+          ClearReplyForm.forEach((form) => {
+            form.value = "";
+          });
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,
             message: res.data.id ? "Comment Added" : "",
           });
-          document.getElementById("my-comment").value = "";
         },
         (error) =>
           this.setState({
@@ -115,7 +117,7 @@ class ReplyForm extends React.Component {
             </label>
             <textarea
               name="newComment"
-              id="my-comment"
+              id="my-replycomment"
               rows="10"
               className="form-control comment-text"
               onChange={this.handleInputChange}

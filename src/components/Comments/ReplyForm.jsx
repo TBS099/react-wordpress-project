@@ -58,11 +58,14 @@ class ReplyForm extends React.Component {
       })
       .then(
         (res) => {
+          this.props.onValueChange(res.data);
+          
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,
             message: res.data.id ? "Comment Added" : "",
           });
+          document.getElementById("my-comment").value = "";
         },
         (error) =>
           this.setState({

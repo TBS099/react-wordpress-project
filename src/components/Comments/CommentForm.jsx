@@ -5,8 +5,8 @@ import "./Comments.css";
 
 //Creates CommentForm Class Component
 class CommentForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     //Declaring state
     this.state = {
@@ -56,12 +56,13 @@ class CommentForm extends React.Component {
       })
       .then(
         (res) => {
-          console.warn("res", res);
+          this.props.onValueChange(res.data);
           this.setState({
             loading: false,
             commentCreated: !!res.data.id,
             message: res.data.id ? "Comment Added" : "",
           });
+          document.getElementById("my-commenttext").value = "";
         },
         (error) =>
           this.setState({
@@ -69,9 +70,6 @@ class CommentForm extends React.Component {
             message: error.response.data.message,
           })
       );
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   render() {
@@ -99,7 +97,7 @@ class CommentForm extends React.Component {
             </label>
             <textarea
               name="newComment"
-              id="my-comment"
+              id="my-commenttext"
               rows="10"
               className="form-control comment-text"
               onChange={this.handleInputChange}

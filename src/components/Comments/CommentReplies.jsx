@@ -71,7 +71,7 @@ class CommentReplies extends React.Component {
             <div className="comment-body body">
               {ReactHtmlParser(reply.content.rendered)}
             </div>
-            <ReplyForm id={reply.id} />
+            <ReplyForm key={`reply-form-${reply.id}`} id={reply.id} onValueChange={this.props.onValueChange} />
             {ReplyReply.reverse().map((replyReply) => {
               if (replyReply.parent === reply.id) {
                 return (

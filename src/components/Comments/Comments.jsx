@@ -24,6 +24,11 @@ class Comments extends React.Component {
 
     // Bind the this context to the formChange function
     this.formChange = this.formChange.bind(this);
+    this.handleChildValueChange = this.handleChildValueChange.bind(this);
+  }
+
+  handleChildValueChange(newValue) {
+    this.setState({ comments: [newValue,...this.state.comments] });
   }
 
   //Pulls Single Post ID from the url
@@ -87,7 +92,7 @@ class Comments extends React.Component {
         {Comments.length
           ? Comments.map((comment) => {
               return (
-                <div className="comment">
+                <div className="comment" id={comment.id}>
                   <div className="comment-header row">
                     <img
                       src={comment.author_avatar_urls[48]}
@@ -116,17 +121,18 @@ class Comments extends React.Component {
                   <div className="comment-body body">
                     {ReactHtmlParser(comment.content.rendered)}
                   </div>
-                  <ReplyForm id={comment.id} />
+                  <ReplyForm key={`reply-form-${comment.id}`} id={comment.id} onValueChange={this.handleChildValueChange} />
                   <CommentReplies
                     comments={comments}
                     commentID={comment.id}
                     users={users}
+                    onValueChange={this.handleChildValueChange}
                   />
                 </div>
               );
             })
           : ""}
-        <CommentForm />
+        <CommentForm onValueChange={this.handleChildValueChange} />
         {loading && <img className="loader" src={Loader} alt="loader" />}
         <script>
           {React.createElement("script", {

@@ -57,7 +57,6 @@ class SinglePost extends React.Component {
 
       setTimeout(() => {
         if (this.state.featuredMediaID !== 0) {
-          setTimeout(() => {
             axios
               .get(
                 `${wordPressSiteUrl}/wp-json/wp/v2/media/${this.state.featuredMediaID}`
@@ -75,9 +74,8 @@ class SinglePost extends React.Component {
                     error: error.response.data.message,
                   })
               );
-          }, 1000);
         }
-      }, 1000);
+      }, 500);
     });
   }
 

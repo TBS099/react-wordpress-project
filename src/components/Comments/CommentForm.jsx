@@ -68,7 +68,11 @@ class CommentForm extends React.Component {
             commentCreated: !!res.data.id,
             message: res.data.id ? "Comment Added" : "",
           });
-          document.getElementById("my-commenttext").value = "";
+          this.props.onCommentAddition(res.data);
+          const ClearReplyForm = document.querySelectorAll(".ql-editor");
+          ClearReplyForm.forEach((quillInstance) => {
+            quillInstance.innerHTML = "";
+          });
         },
         (error) =>
           this.setState({

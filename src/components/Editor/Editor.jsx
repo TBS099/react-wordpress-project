@@ -1,7 +1,6 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "../../../node_modules/react-quill/dist/quill.snow.css";
-import { UnprivilegedEditor } from "react-quill";
 
 class Editor extends React.Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class Editor extends React.Component {
 
   //Change Input on typing
   handleInputChange = (html) => {
-    console.log(html)
+    this.props.EditorInputChange(html);
   };
 
   render() {
@@ -54,9 +53,7 @@ class Editor extends React.Component {
           placeholder={this.props.placeholder}
           modules={modules}
           formats={formats}
-          ref={this.quillRef}
-          theme={"snow"} // pass false to use minimal theme
-        />
+          ref={this.quillRef} />
       </div>
     );
   }

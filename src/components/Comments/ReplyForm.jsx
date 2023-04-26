@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import Loader from "/src/assets/loader.gif";
 import "./Comments.css";
-import ReactQuill from "react-quill";
+import Editor from "../Editor/Editor";
 
 //Creates ReplyForm Class Component
 class ReplyForm extends React.Component {
@@ -42,6 +42,11 @@ class ReplyForm extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  //Editor Input Change
+  EditorInputChange = (input) => {
+    this.setState({ newComment: input });
+  };
+
   //Function to handle form submission
   handleFormSubmit = (event) => {
     event.preventDefault();
@@ -69,9 +74,9 @@ class ReplyForm extends React.Component {
       .then(
         (res) => {
           this.props.onCommentAddition(res.data);
-          const ClearReplyForm = document.querySelectorAll("#my-replycomment");
-          ClearReplyForm.forEach((form) => {
-            form.value = "";
+          const ClearReplyForm = document.querySelectorAll(".ql-editor");
+          ClearReplyForm.forEach((quillInstance) => {
+            quillInstance.innerHTML = "";
           });
           this.setState({
             loading: false,
@@ -116,13 +121,7 @@ class ReplyForm extends React.Component {
             >
               Comment:
             </label>
-            <textarea
-              name="newComment"
-              id="my-replycomment"
-              rows="10"
-              className="form-control comment-text"
-              onChange={this.handleInputChange}
-            />
+            <Editor EditorInputChange={this.EditorInputChange} />
           </div>
           <button
             type="submit"

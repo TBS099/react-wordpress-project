@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Loader from "/src/assets/loader.gif";
 import "./Comments.css";
+import ReactQuill from "react-quill";
 
 //Creates ReplyForm Class Component
 class ReplyForm extends React.Component {

@@ -16,28 +16,28 @@
 
 .comment {
   margin-bottom: 5px;
-  width:90%;
-  margin-top:10px;
+  width: 90%;
+  margin-top: 10px;
 }
 
 .card-form {
   margin-left: 0;
-  width:90% !important
+  width: 90% !important;
 }
 
 .comment-card {
-  display:flex;
+  display: flex;
   align-items: center;
-  padding:5px;
+  padding: 5px;
 }
 
 .comment-text {
-  width:90% !important;
-  margin-left:40px;
+  width: 90% !important;
+  margin-left: 40px;
 }
 
 .card-form-subtitle {
-  margin-left:40px;
+  margin-left: 40px;
 }
 
 .card-form-title {
@@ -45,28 +45,39 @@
 }
 
 .submit-btn {
-  margin-left:300px;
-  margin-bottom:5px;
+  margin-left: 300px;
+  margin-bottom: 5px;
 }
 
 .reply {
-  float:right;
+  float: right;
 }
 
 .reply-form {
-  display:none;
+  display: none;
   border: solid 1px;
-  margin-top:5px;
-  margin-bottom:5px;
-  margin-left:30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 30px;
 }
 
 .reply-link {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .cancel-reply-link {
-  margin-right:35px;
-  float:right;
-  cursor:pointer
+  margin-right: 35px;
+  float: right;
+  cursor: pointer;
+}
+
+#my-commenttext {
+  margin-top: 40px;
+  padding: 0;
+}
+
+.ql-editor p {
+  overflow-wrap: break-word;
+  max-width: 607px;
+  height:200px !important;
 }

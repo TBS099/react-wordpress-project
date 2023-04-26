@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Loader from "/src/assets/loader.gif";
 import "./Comments.css";
+import Editor from "../Editor/Editor";
 
 //Creates CommentForm Class Component
 class CommentForm extends React.Component {
@@ -29,6 +30,11 @@ class CommentForm extends React.Component {
   //Function that takes data apon entering and places it into states
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  //Editor Input Change
+  EditorInputChange = (input) => {
+    this.setState({ newComment: input });
   };
 
   //Function to handle form submission
@@ -95,13 +101,7 @@ class CommentForm extends React.Component {
             >
               Comment:
             </label>
-            <textarea
-              name="newComment"
-              id="my-commenttext"
-              rows="10"
-              className="form-control comment-text"
-              onChange={this.handleInputChange}
-            />
+            <Editor EditorInputChange={this.EditorInputChange} />
           </div>
           <button
             type="submit"

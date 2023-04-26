@@ -11,3 +11,12 @@
     padding-left:10px;
     padding-right:10px;
 }
+
+.post-text-editor {
+    width:890px;
+    margin-left:-40px;
+}
+
+.display-content {
+    display:contents
+}

@@ -8,6 +8,11 @@ class Editor extends React.Component {
     this.quillRef = React.createRef();
   }
 
+  //Pulls Single Post ID from the url
+  CurrentUrl = window.location.href.split("/");
+  CurrentUrl = this.CurrentUrl[this.CurrentUrl.length - 1];
+  
+
   //Change Input on typing
   handleInputChange = (html) => {
     this.props.EditorInputChange(html);
@@ -44,7 +49,7 @@ class Editor extends React.Component {
     ];
 
     return (
-      <div className="text-editor">
+      <div className={this.CurrentUrl == "create" ? "text-editor post-text-editor" : "text-editor"}>
         <ReactQuill
           name="newComment"
           id="my-commenttext"

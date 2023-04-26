@@ -3,6 +3,7 @@ import "./CreatePost.css";
 import NavBar from "../NavBar/Navbar";
 import Loader from "/src/assets/loader.gif";
 import axios from "axios";
+import Editor from "../Editor/Editor";
 
 //Creating CreatePost Class Component
 class CreatePost extends React.Component {
@@ -76,8 +77,11 @@ class CreatePost extends React.Component {
               message: res.data.id ? "New Post Created" : "",
             });
             document.getElementById("title").value = "";
-            document.getElementById("my-postcontent").value = "";
             document.getElementById("featuredImage").value = "";
+            const ClearReplyForm = document.querySelectorAll(".ql-editor");
+            ClearReplyForm.forEach((quillInstance) => {
+              quillInstance.innerHTML = "";
+            });
           },
           (error) =>
             this.setState({
@@ -91,6 +95,11 @@ class CreatePost extends React.Component {
   //Function that takes data apon entering and places it into states
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  //Editor Input Change
+  EditorInputChange = (input) => {
+    this.setState({ content: input });
   };
 
   //Function that takes file data and inserts it into states
@@ -133,17 +142,11 @@ class CreatePost extends React.Component {
                     id="title"
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group display-content">
                   <label htmlFor="my-postcontent" className="form-title">
                     Content:
                   </label>
-                  <textarea
-                    name="content"
-                    id="my-postcontent"
-                    rows="10"
-                    className="form-control"
-                    onChange={this.handleInputChange}
-                  />
+                  <Editor EditorInputChange={this.EditorInputChange} />
                 </div>
                 <div className="form-group">
                   <label className="form-title" htmlFor="featuredImage">
